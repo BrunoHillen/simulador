@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Impressão Offset</title>
+    <meta name="description" content="Simulador interativo para aprendizado de mistura de cores CMYK">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <!-- Modal de Senha -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h2 class="text-xl font-bold mb-4">Digite a Senha</h2>
+            <input type="password" id="passwordInput" 
+                   class="w-full p-2 border rounded mb-4" placeholder="Digite a senha">
+            <div class="flex justify-end gap-2">
+                <button onclick="closeModal()" class="btn btn-blue">Cancelar</button>
+                <button onclick="checkPassword()" class="btn btn-green">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+        <!-- Cabeçalho -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Simulador de Impressão Offset</h1>
+            <div class="space-x-4">
+                <button onclick="showPasswordModal()" class="btn btn-yellow">
+                    Ver Cor Atual
+                </button>
+                <button onclick="createNewTarget()" class="btn btn-blue">
+                    Nova Cor
+                </button>
+            </div>
+        </div>
+
+        <!-- Área de cores -->
+        <div class="grid grid-cols-2 gap-8 mb-8">
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Cor Alvo</h2>
+                <div id="targetColor" class="w-full h-32 rounded-xl border-2"></div>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Cor Atual</h2>
+                <div id="currentColor" class="w-full h-32 rounded-xl border-2 hidden"></div>
+            </div>
+        </div>
+
+        <!-- Histórico de Impressões -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Impressões Anteriores</h2>
+            <div id="previousColors" class="grid grid-cols-4 gap-4"></div>
+        </div>
+
+        <!-- Sliders CMYK -->
+        <div class="space-y-6 mb-8">
+            <div>
+                <label class="block font-medium mb-2">
+                    Ciano: <span id="cyanValue">0%</span>
+                </label>
+                <input type="range" id="cyan" min="0" max="100" value="0" 
+                       oninput="updateValue('cyan', this.value)">
+            </div>
+            <div>
+                <label class="block font-medium mb-2">
+                    Magenta: <span id="magentaValue">0%</span>
+                </label>
+                <input type="range" id="magenta" min="0" max="100" value="0"
+                       oninput="updateValue('magenta', this.value)">
+            </div>
+            <div>
+                <label class="block font-medium mb-2">
+                    Amarelo: <span id="yellowValue">0%</span>
+                </label>
+                <input type="range" id="yellow" min="0" max="100" value="0"
+                       oninput="updateValue('yellow', this.value)">
+            </div>
+            <div>
+                <label class="block font-medium mb-2">
+                    Preto: <span id="blackValue">0%</span>
+                </label>
+                <input type="range" id="black" min="0" max="100" value="0"
+                       oninput="updateValue('black', this.value)">
+            </div>
+        </div>
+
+        <!-- Botão de impressão e resultado -->
+        <button onclick="printAttempt()" class="btn btn-green w-full mb-4">
+            Imprimir (<span id="printCount">0</span>/10)
+        </button>
+
+        <div id="result" class="mt-4 p-4 rounded-xl border-2 hidden">
+            <h3 class="text-xl font-semibold">Resultado da Última Impressão</h3>
+            <p id="accuracy" class="text-3xl font-bold mt-2"></p>
+        </div>
+    </div>
+
+    <script src="js/colorUtils.js"></script>
+    <script src="js/simulator.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
